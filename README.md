@@ -1,5 +1,7 @@
 # puhelinluettelo-backend
 
+[Link to app](https://full-stack-open-part3-ayiq.onrender.com)
+
 To install dependencies:
 
 ```bash
@@ -9,7 +11,5 @@ bun install
 To run:
 
 ```bash
-bun run index.js
+bun run start
 ```
-
-This project was created using `bun init` in bun v1.0.29. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
