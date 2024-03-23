@@ -7,7 +7,8 @@
   },
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "build:ui": "@powershell Remove-Item -Recurse -Force dist && cd ../../osa2/puhelinluettelo && bun run build && @powershell Copy-Item dist -Recurse ../../osa3/puhelinluettelo-backend"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
