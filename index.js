@@ -22,6 +22,16 @@ app.use(morgan(function (tokens, req, res) {
 })
 )
 
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  }
+
+  next(error)
+}
+
 
 let persons = [
   {
@@ -46,22 +56,22 @@ let persons = [
   }
 ]
 
-app.get('/', (request, response) => {
+app.get('/', (request, response, next) => {
   response.send('<h1>Hello World!</h1>')
 })
 
-app.get('/api/persons', (request, response) => {
+app.get('/api/persons', (request, response, next) => {
   User.find({}).then(users => {
     response.json(users)
   })
 })
 
-app.get('/info', (request, response) => {
+app.get('/info', (request, response, next) => {
   const personsInfo = `Phonebook has info for ${persons.length} people <br><br> ${new Date()}`;
   response.send(personsInfo)
 })
 
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
   const id = Number(request.params.id)
   const person = persons.find(person => person.id === id)
   if (person) {
@@ -71,14 +81,14 @@ app.get('/api/persons/:id', (request, response) => {
   }
 })
 
-app.delete('/api/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response, next) => {
   const id = request.params.id;
   User.findByIdAndDelete(id)
     .then(result => {
       persons = persons.filter(person => person.id !== id)
       response.status(204).end()
     })
-    .catch(error => console.log(error))
+    .catch(error => next(error))
 })
 
 const generateId = () => {
@@ -117,3 +127,5 @@ const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
+
+app.use(errorHandler)
