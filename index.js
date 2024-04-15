@@ -96,7 +96,7 @@ const generateId = () => {
   return id
 }
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response,next) => {
   const body = request.body
   if (!body.name || !body.number) {
     return response.status(400).json({ 
@@ -121,6 +121,26 @@ app.post('/api/persons', (request, response) => {
 
   persons = persons.concat(person)
 
+})
+
+app.put('/api/persons/:id', (request, response,next) => {
+
+  const body = request.body
+  if (!body.number) {
+    return response.status(400).json({ 
+      error: 'number is missing' 
+    })
+  }
+
+  const person = {
+    number: body.number,
+  }
+
+  User.findByIdAndUpdate(request.params.id, person, { new: true })
+  .then(update => {
+    response.json(update)
+  })
+  .catch(error => next(error))
 })
 
 const PORT = process.env.PORT || 3001
