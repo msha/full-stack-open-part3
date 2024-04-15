@@ -17,11 +17,13 @@ mongoose.connect(url)
 
 
 const userSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    minlength: 3,
+    required: true
+  },
   number: String,
 })
-
-const User = mongoose.model('User', userSchema)
 
 userSchema.set('toJSON', {
   transform: (document, returnedObject) => {
