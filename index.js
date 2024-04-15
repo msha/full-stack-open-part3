@@ -67,18 +67,22 @@ app.get('/api/persons', (request, response, next) => {
 })
 
 app.get('/info', (request, response, next) => {
-  const personsInfo = `Phonebook has info for ${persons.length} people <br><br> ${new Date()}`;
-  response.send(personsInfo)
+  User.find({}).then(users => {
+    const personsInfo = `Phonebook has info for ${users.length} people <br><br> ${new Date()}`;
+    response.json(personsInfo)
+  })
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
-  const id = Number(request.params.id)
-  const person = persons.find(person => person.id === id)
-  if (person) {
-    response.json(person)
-  } else {
-    response.status(404).end()
-  }
+  const id = request.params.id
+  User.findById(id).then(user => {
+    if (user) {
+      response.json(user)
+    } else {
+      response.status(404).end()
+    }
+  })
+  .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
