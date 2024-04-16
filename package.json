@@ -2,12 +2,16 @@
   "name": "puhelinluettelo-backend",
   "module": "index.js",
   "devDependencies": {
+    "@stylistic/eslint-plugin-js": "^1.7.2",
     "@types/bun": "latest",
+    "eslint": "^8.0.0",
+    "globals": "^15.0.0",
     "nodemon": "^3.1.0"
   },
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
+    "lint": "eslint .",
     "build:ui": "@powershell Remove-Item -Recurse -Force dist && cd ../../osa2/puhelinluettelo && bun run build && @powershell Copy-Item dist -Recurse ../../osa3/puhelinluettelo-backend"
   },
   "peerDependencies": {

@@ -1,6 +1,6 @@
 const dotenv = require('dotenv')
 const mongoose = require('mongoose')
-dotenv.config({ path: './.env.local' });
+dotenv.config({ path: './.env.local' })
 
 
 if (process.argv.length<3) {
@@ -9,7 +9,7 @@ if (process.argv.length<3) {
 }
 
 const password = process.argv[2]
-const dbName = process.env.MONGODB_ATLAS_NAME;
+const dbName = process.env.MONGODB_ATLAS_NAME
 
 
 const url =
@@ -32,7 +32,7 @@ const addUser = (name,number) => {
     name: name,
     number: number,
   })
-  user.save().then(result => {
+  user.save().then(() => {
     console.log(`added ${name} number ${number} to phonebook`)
     mongoose.connection.close()
   })
@@ -40,7 +40,7 @@ const addUser = (name,number) => {
 
 const getUsers = () => {
   User.find({}).then(result => {
-    console.log('phonebook');
+    console.log('phonebook')
     result.forEach(user => {
       console.log(user.name,user.number)
     })
